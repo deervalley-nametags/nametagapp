@@ -1,0 +1,112 @@
+.title-text{
+    font-size: 22px;
+}
+.smaller-text{
+    font-size: 16px;
+}
+#new-tag-title{
+    font-size: 26px;
+}
+li:nth-child(odd){
+    background-color: #eee;
+}
+.status-green{
+    background-color: #31EE1F;
+    border-radius: 5px;
+}
+.status-yellow{
+    background-color: #F9F509;
+    border-radius: 5px;
+}
+.status-red{
+    background-color: red;
+    border-radius: 5px;
+}
+.tag-green{
+    width: 270px;
+    height: 90px;
+    background-color: darkgreen;
+    border-radius: 10px;
+    border: 3px solid #bbb;
+    color: white;
+}
+.tag-greenmag{
+    width: 270px;
+    height: 90px;
+    background-color: darkgreen;
+    border-radius: 10px;
+    border: 3px solid #bbb;
+    color: white;
+}
+.dvgold-img{
+    background-image: url(img/dvgold60.png);
+    height: 60px;
+    min-width: 60px;
+    position: relative;
+    left: 5px;
+    margin-top:10px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.dvwhite-img{
+    background-image: url(img/dvwhite60.png);
+    height: 60px;
+    min-width: 60px;
+    position: relative;
+    left: 5px;
+    margin-top:10px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.tag-bronze{
+    width: 270px;
+    height: 90px;
+    background-color: #734d26;
+    border-radius: 10px;
+    border: 3px solid #bbb;
+    color: white;
+}
+.tag-basket{
+    width: 160px;
+    height: 160px;
+    background-color: #555;
+    border-radius: 80px;
+    border: 3px solid #bbb;
+    color: white;
+}
+.tag-outdoor{
+    width: 270px;
+    height: 120px;
+    background-color: black;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    color: white;
+    font-size: 50px;
+    padding-top: 10px;
+}
+.tag-sign{
+    width: 270px;
+    height: 256px;
+    background-color: grey;
+    border-radius: 10px;
+    color: white;
+}
+.tag-other{
+    width: 256px;
+    height: 80px;
+}
+#status-header{
+    padding-left: 10px;
+    color: green;
+}
+div.null-space{
+    display: none !important;
+}
+.start-tag{
+    border: 2px solid #999;
+    border-radius: 12px;
+}
+.start-tag:hover{
+    border: 2px solid rgb(196, 10, 10);
+    cursor: pointer;
+}

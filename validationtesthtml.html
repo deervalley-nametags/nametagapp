@@ -1,0 +1,33 @@
+<html>
+<head>
+    <!--------------------- import old school jquery -------------------------------->
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+    </script>
+</head>
+<body>
+    <script src="textValidation.js"></script>
+    <input type=text id="i-name" />
+    <p id="o-name">name</p>
+
+    <input type=text id="i-test" />
+    <p id="o-test">title / city, st</p>
+
+    <script>
+        $("#i-name").keyup(function(){
+            //on keyup, grab input and log it out
+            let inputValue = $(this).val();
+            let validatedText = textValidation(inputValue);
+
+            $("#o-name").html(validatedText);
+        });
+        $("#i-test").keyup(function(){
+            //on keyup, grab input and log it out
+            let inputValue = $(this).val();
+            //$("#o-test").html(inputValue);
+        });
+    </script>
+</body>
+</html>

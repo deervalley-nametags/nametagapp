@@ -1,0 +1,122 @@
+*{
+    font-family: "Garamond";
+}
+td{
+    border: 1px solid #444;
+    padding: 0px 5px !important;
+    width: 250px;
+}
+#banner-img{
+    height: 200px;
+    background-image: url(img/banner.jpg);
+    background-color: #000;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 5px;
+}
+#navbar-h1{
+    margin: 10px 0px 0px 0px;
+    padding: 0px;
+    font-size: 50px;
+    font-weight: 700;
+    color: white;
+}
+#banner-row{
+    width: 100%;
+    position: absolute;
+    top: 5px;
+}
+p{
+    text-align: center;
+    margin-bottom: 0px;
+}
+h4{
+    padding: 0px 15px;
+}
+li{
+    border-radius: 5px;
+}
+.btn-primary{
+    border-color: #1F5F19 !important;
+    border-width: 1px !important;
+    background-color: #2B8A23 !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+}
+.btn-primary:hover{
+    background-color: #11320E !important;
+}
+#navbar-hamburger{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    width: 60%;
+}
+#navbar-hamburger-icon{
+    background-color: white;
+}
+.icon-bar{
+    background-color: #fff;
+}
+.navbar-toggler{
+    font-size: 20px !important; 
+}
+.w-dropdown{
+    width: 100%;
+}
+@media (min-width: 768px){
+    #navbar-hamburger-icon{
+        display: none;
+    }
+    #navbar-hamburger{
+        width: 50%;
+    }
+    .w-dropdown{
+        width: 85%;
+    }
+}
+.row{
+    margin:0px !important;
+}
+#search-reset, #modal-title-multi, #modal-2A-multi, #modal-1b-multi, #modal-2b-multi, #request-button-multi, #i-comments-multi{
+    display: none;
+}
+#excel-example-img{
+    background-image: url(img/excelimg2.png);
+    width: 505px;
+    height: 930px;
+}
+#status-table{
+    display: none;
+}
+#admin-modal-button{
+    background-color: rgba(0, 0, 0, 0.0);
+    height: 40px;
+    width: 40px;
+    border: none;
+    cursor: default;
+    position: absolute;
+    top: 88px;
+    left: 50%;
+    margin-left: -65px;
+}
+#modal-thirdline{
+    display: none;
+}
+#work-left-todo{
+    display: none;
+}
+.admin-todo-class{
+    border: 2px solid #555;
+    margin-bottom: 4px;
+    border-radius: 5px;
+}
+#admin-modal-inner{
+    margin: 30px auto;
+}
+@media (min-width: 576px){
+    .modal-dialog {
+        max-width: 1000 !important;
+        width: 85% !important;
+    }
+}

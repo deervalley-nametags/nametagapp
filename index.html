@@ -1,0 +1,315 @@
+<html>
+<!--------------- info since things in office get lost 
+    github: deervalley-nametags signed up with emeqiss@deervalley.com
+    firebase/google: deervalley.nametags@gmail.com
+    pass will be same as work login pass(not super secure but whatevs)
+
+    front end hosting by github.io, and backend service using firestore by firebase
+
+    -
+    update: somehow github ports are being blocked, so gitlab using emeqiss@deervalley.com
+
+    color codes for db:
+    0: (unassigned)
+
+    1: green pin no deerhead(normal nametag and default selection)
+    2: green magnet deerhead
+    3: bronze magnet engraved deerhead
+    4: outdoor tags
+    5: sign, add details in comments
+    6: other, add details in comments
+    -
+    7: repeat starting at 1, but with title instead of city, state
+    8: repeat 2 ' '
+    9: repeat 3 ' '
+    10: repeat 4 ' '
+    11: basket check tag
+
+    db fields
+    -document no. / id (auto gen from firebase)
+    -name
+    -namearray contains single and lowercase fields for each space
+    -requestor
+    -requestorarray contains single and lowercase fields for each space
+    -titlecity
+    -thirdline
+    -color (color code)
+    -daterequest
+    -datefinished (not finished if seconds is at 0)
+    -workstatus: 0 unfinished -- 1 done -- 2 error !! not implemented yet
+    -comments
+
+
+    to do:
+    -outdoor tag is <canvas> and can print straight to dtc
+    -have allan break it
+    -set .session to .none and obfuscate, publish
+
+
+    replacing database? sections where db is accessed:
+    -status page reading all
+    -writing single/multi new tag request
+    -searching function reading .where
+    -admin screen authentication
+    -basically, searching "db." or "auth" will reveal all locations tied to db ops
+
+
+    FYI admin login button is invisible and covers the upper visible window in the bg banner
+    --------------->
+<head>
+    <title>Deer Valley Nametag System @ Empire Lodge</title>
+    <link rel="shortcut icon" href="img/dvgreen.png" />
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="tags.css">
+    <!--------------------- import old school jquery -------------------------------->
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+    </script>
+    <!--------------------- import vanilla bootstrap -------------------------------->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    
+</head>
+<body>
+<!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-firestore.js"></script>
+
+<!-- import authentication -->
+<script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+<script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-auth.js"></script>
+
+<!--------------------- import js after firebase -------------------------------->
+<script src="main.js"></script>
+<script src="textValidation.js"></script>
+<script src="createPreviewImg.js"></script>
+<script src="performQuery.js"></script>
+<script src="startingTagsInit.js"></script>
+<script src="printElement.js"></script>
+
+<!script src="printjs/print.min.js"></!script>
+<!script src="printjs/print.min.css"></!script>
+
+
+
+<!---- TITLEBAR ---->
+<div class="container" id="navbar-container">
+    <nav class="navbar navbar-expand-md navbar-light mb-2" id="banner-img">
+        <div class="row justify-content-around" id="banner-row">
+
+            <!---- H1 ---->
+            <div class="col-xs-auto">
+                <h1 class="navbar-brand" id="navbar-h1">
+                    Deer Valley Nametags
+                </h1>
+            </div>
+        </div>
+
+        <!---- ADMIN ---->
+        <button type="button" id="admin-modal-button" data-toggle="modal" data-target="#admin-modal" />
+            
+    </nav>
+</div>
+
+
+
+<!---- MAIN BODY UNDER BANNER ---->
+<ul class="container">
+
+    <!---- GET STARTED LI ---->
+    <li class='row justify-content-center' id="get-started-li">
+        <h4>CLICK TAG TYPE TO GET STARTED or GOTO </h4>
+        <button id="order-status-button" class="btn btn-primary">
+           ORDER STATUS
+        </button>
+    </li>
+    <div id="starting-tag-types" class="row justify-content-between">
+        
+    </div>
+
+    <!---- STATUS LI ---->
+    <li class='row p-0 justify-content-between' id="status-header">
+        <!---- BACK BUTTON COL ---->
+        <div class="col p-0 col-12 col-md-3">
+            <button class='btn btn-primary' id='back-to-starting-button'>BACK</button>
+        </div>
+        <!---- STATUS LABEL COL ---->
+        <div class="col p-0 col-12 col-md-4">
+            <h4 id="search-label" class="mt-3 mb-0">
+                STATUS for unfinished tags:
+            </h4>
+            
+        </div>
+        <!---- SEARCH COL ---->
+        <div class="col p-0 col-12 col-md-5">
+            <!---- SUBMIT SEARCH ---->
+                <input id="i-search" class="form-control" type="search" placeholder="Search Already Ordered Tags" aria-label="Search" />
+                
+        </div>
+    </li>
+
+    <!---- STATUS TABLE ---->
+    <ul id="status-table" class="list-group">
+    </ul>
+</ul>
+
+
+
+<!---- REQUEST NEW MODAL ---->
+<div class="modal fade" id="new-tag-modal" tabindex="-1" role="dialog" aria-labelledby="new-tag-title" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <!---- TITLE ---->
+            <div class="modal-header row" id="modal-title-single">
+                <div class="col-xs-12 col-md-7">
+                    <h5 class="modal-title" id="new-tag-title">Request a NEW Tag</h5>
+                </div>
+                <div class="col col-xs-12 col-md-5">
+                    <button id="excel-button" class="btn btn-primary">Import from Excel</button>
+                </div>
+            </div>
+            <div class="modal-header row" id="modal-title-multi">
+                <div class="col-xs-12">
+                    <h5 class="modal-title" id="new-tag-title">Excel Mass Nametag Request</h5>
+                </div>
+            </div>
+            <div class="modal-body">
+
+                <!---- ROW 1 ---->
+                <div class="row mb-3">
+
+                    <!---- COL 1B ---->
+                    <div class="col-12 p-0">
+
+                        <!---- NAME INPUT / REQUESTOR ---->
+                        <div class="input-group" id="modal-1b-single">
+                            <input type="text" class="form-control" id="i-name" placeholder="Name on Tag" aria-label="name" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group" id="modal-1b-multi">
+                            <input type="text" class="form-control" id="i-requestor-multi" placeholder="NAME OF REQUESTOR" aria-label="name" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                </div>
+
+                <!---- ROW 2 ---->
+                <div class="row mb-3">
+
+                    <!---- COL 2A ---->
+                    <div class="col-md-4 p-0">
+
+                        <!---- BUTTON 2 ---->
+                        <div id="modal-2A-single">
+                            <button class="btn btn-secondary w-dropdown" type="button" id="request-modal-addline" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Add Third Line
+                            </button>
+                        </div>
+                        <div id="modal-2A-multi">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Excel Example
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="excel-example-img">
+                                </div>
+                              </div>
+                        </div>
+
+
+                    </div>
+
+                    <!---- COL 2B ---->
+                    <div class="col-md-8 p-0">
+
+                        <!---- TITLECITY / EXCEL DATA INPUT ---->
+                        <div class="input-group" id="modal-2b-single">
+                            <input type="text" class="form-control" id="i-titlecity" placeholder="SECOND LINE: TITLE / CITY" aria-label="name" aria-describedby="basic-addon1" />
+                        </div>
+                        <div class="input-group" id="modal-2b-multi">
+                            <textarea class="form-control" id="i-excel" placeholder="EXCEL DATA PASTE HERE" aria-label="name" aria-describedby="basic-addon1"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!---- THIRD LINE INPUT ---->
+                <div class="input-group mb-3" id="modal-thirdline">
+                    <input type="text" class="form-control" id="i-thirdline" placeholder="THIRD LINE" aria-label="name" aria-describedby="basic-addon1">
+                </div>
+
+                <!---- REQUESTOR INPUT ---->
+                <div class="input-group mb-3" id="modal-request-div">
+                    <input type="text" class="form-control" id="i-requestor" placeholder="REQUESTOR (or: WHO TO MAIL TAG TO)" aria-label="name" aria-describedby="basic-addon1">
+                </div>
+
+                <!---- COMMENTS INPUT ---->
+                <div class="input-group">
+                    <textarea class="form-control" id="i-comments" placeholder="ADDITIONAL COMMENTS" aria-label="With textarea"></textarea>
+                </div>
+                <div class="input-group">
+                    <textarea class="form-control" id="i-comments-multi" placeholder="ADDITIONAL COMMENTS" aria-label="With textarea"></textarea>
+                </div>
+
+                <!---- PREVIEW ---->
+                <h4>PREVIEW</h4>
+                <div id="preview-window" class="row justify-content-between">
+                    <div class="col col-md-6 col-lg-4 p-0">
+                        <div class="row justify-content-start" id="preview-bg">
+                            <div class="col-auto" id="preview-img"></div>
+                            <div class='col'>
+                                <div class="row justify-content-center pt-2 title-text" id="preview-name"></div>
+                                <p class="smaller-text" id="preview-titlecity"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <p id="sending-monitor"></p>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="request-button">REQUEST</button>
+                <button type="button" class="btn btn-primary" id="request-button-multi">REQUEST MULTIPLE</button>
+            </div>
+        </div>
+    </div>
+<!---- END REQUEST MODAL DIV BELOW ----> 
+</div>
+
+
+<!---- ADMIN MODAL ---->
+<div class="modal fade" id="admin-modal" tabindex="-1" role="dialog" aria-labelledby="new-tag-title" aria-hidden="true">
+    <div class="modal-dialog modal-xl" id="admin-modal-inner" role="document">
+        <div class="modal-content">
+
+            <!---- TITLE ---->
+            <div class="modal-header row" >
+                <h4 id="modal-title-admin">
+                    Admin Login
+                </h4>
+            </div>
+            <div class="modal-body">
+                <input type="password" class="form-control" id="i-admin-pass" placeholder="ADMIN PASSWORD" aria-label="admin-password" aria-describedby="basic-addon1">
+                <div id="work-left-todo">
+                    <h4 style="text-align: center;">UNFINISHED TAGS</h4>
+                    
+
+                    
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <p id="admin-login-status"></p>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="admin-login">LOGIN</button>
+            </div>
+        </div>
+    </div>
+<!---- END ADMIN MODAL DIV BELOW ----> 
+</div>
+
+
+</body>
+</html>
