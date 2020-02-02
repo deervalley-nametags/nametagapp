@@ -1,5 +1,6 @@
 *{
-    font-family: "Garamond";
+    font-family: "Garamond", "Georgia", serif;
+    -webkit-text-size-adjust: none;
 }
 td{
     border: 1px solid #444;
