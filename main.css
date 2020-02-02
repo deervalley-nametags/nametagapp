@@ -1,6 +1,11 @@
 *{
     font-family: "Garamond", "Georgia", serif;
     -webkit-text-size-adjust: none;
+    white-space: nowrap;
+    text-overflow: ellipsis; 
+}
+.col{
+    
 }
 td{
     border: 1px solid #444;

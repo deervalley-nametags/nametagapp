@@ -24,16 +24,16 @@ function createPreviewImg(imgObj){
 
 
     //concatenate return string--start row
-    let returnString = "<div class='col col-md-6 col-lg-4 p-0'><div class='row " + tagTypeObj.bg + "'>" +
+    let returnString = "<div class='col col-md-6 col-lg-4 p-0'><div class='row justify-content-center " + tagTypeObj.bg + "'>" +
 
     //col A
     "<div class='col col-auto " + tagTypeObj.img + "'></div>" +
 
     //col B
-    "<div class='col'>" + 
+    "<div class='col' style='max-width:185px;'>" + 
     
         //row B1
-        "<p class='row justify-content-center title-text'>" +
+        "<p style='min-width:60px;' class='row justify-content-center title-text'>" +
         imgObj.name + 
         "</p>" +
 
@@ -50,7 +50,8 @@ function createPreviewImg(imgObj){
     //end col B
     "</div>" +
 
-    //col C for quantity
+
+    //col D for quantity
     "<div style='position:relative;right:5px;top:75%;font-size:18px;'>" +
     tagTypeObj.quantity +
     "</div>" +
