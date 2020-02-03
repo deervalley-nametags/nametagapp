@@ -51,10 +51,11 @@ function createPreviewImg(imgObj){
     "</div>" +
 
 
-    //col D for quantity
+    //col D for quantity, obsolete
+    /*
     "<div style='position:relative;right:5px;top:75%;font-size:18px;'>" +
     tagTypeObj.quantity +
-    "</div>" +
+    "</div>" +*/
 
     //end row and col
     "</div></div>";

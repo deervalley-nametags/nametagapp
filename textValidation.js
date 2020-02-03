@@ -141,7 +141,30 @@ function stateToAbbv(inputString){
         splicedString = splitString[1].slice(1);
     };
     
-    //if the comma isnt a thing, check the last word e.g. park city utah no comma
+    //if the comma isnt a thing, rearrange things so they are in data format can check for state abbrev
+    if(splitString.length === 1){ //"park city utah" no comma before state
+        //check the last word
+        splitString = splitString[0].split(" "); //["park","city","utah"]
+
+        //temp save last
+        let tempPossibleState = splitString[splitString.length - 1];
+
+        //remove last
+        splitString.pop(); //["park","city"]
+        
+        //join all
+        let tempJoinString = [];
+        tempJoinString[0] = splitString.join(" "); //"park city"
+        
+        //now need to join the first parts and leave the last part like ["park city", "utah"]
+        tempJoinString.push(tempPossibleState);
+        splitString = tempJoinString;
+        //console.log(tempJoinString);
+
+        splicedString = splitString[1];
+    };
+
+    console.log(splicedString);
     
     let stateSearch = stateFull.indexOf(splicedString); //-1 if no result, # of index if match
     if(stateSearch != -1){
