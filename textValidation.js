@@ -132,6 +132,7 @@ function stateToAbbv(inputString){
     //split and grab the 2nd item in array, check to see if its a state name
     let splitString = inputString.split(",");
 
+
     //get rid of the first character which is a space thanks to add comma spaces
     //only if splitString[1] exists
     let splicedString;
@@ -140,6 +141,7 @@ function stateToAbbv(inputString){
         splicedString = splitString[1].slice(1);
     };
     
+    //if the comma isnt a thing, check the last word e.g. park city utah no comma
     
     let stateSearch = stateFull.indexOf(splicedString); //-1 if no result, # of index if match
     if(stateSearch != -1){
