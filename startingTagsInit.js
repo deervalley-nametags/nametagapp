@@ -88,8 +88,8 @@ function startingTagsInit(){
     //this section writes a single entry for basket check
     thisTag = createPreviewImg({
         colorCode: 11,
-        name: "<p style='font-size:60px;margin-top:-20px;'>&#8226;</p>",
-        secondLine: "<p style='font-size:22px;margin-top:-20px;'>Basket Check</p>",
+        name: "<p style='font-size:60px;position:relative;top:-20%;'>&#8226;</p>",
+        secondLine: "<p style='font-size:19px;position:relative;bottom:30%;'>Basket Check</p>",
         thirdLine: ""
     });
     //work-left-todo append basket check

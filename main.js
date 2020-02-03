@@ -93,8 +93,8 @@ function colorCodeToClass(colorCode){
 
         //11: basket check tag
         tagType.bg = "tag-basket";
-        tagType.defName = "<p style='font-size:60px;margin-top:-20px;'>&#8226;</p>";
-        tagType.defSecond = "<p style='font-size:22px;margin-top:-20px;'>Basket Check</p>";
+        tagType.defName = "<p style='font-size:60px;position:relative;top:-20%;'>&#8226;</p>";
+        tagType.defSecond = "<p style='font-size:19px;position:relative;bottom:30%;'>Basket Check</p>";
         tagType.quantity = "";
     } else{
 
